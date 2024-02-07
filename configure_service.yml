@@ -1,0 +1,37 @@
+---
+- name: Configure Nginx, Fail2Ban, and PM2
+  hosts: 3.80.226.225
+  become: true
+
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+
+    - name: Install required packages
+      apt:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - nginx
+        - fail2ban
+        - pm2
+
+    - name: Start and enable Nginx service
+      systemd:
+        name: nginx
+        state: started
+        enabled: yes
+
+    - name: Start and enable Fail2Ban service
+      systemd:
+        name: fail2ban
+        state: started
+        enabled: yes
+
+    - name: Install pm2 using npm
+      npm:
+        name: pm2
+        global: yes
+
+    # Add more tasks to configure Nginx, Fail2Ban, and PM2 as needed

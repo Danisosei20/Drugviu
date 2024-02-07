@@ -1,0 +1,45 @@
+---
+- name: Install Certbot and obtain SSL certificates
+  hosts: 44.223.1.253
+  become: yes
+  tasks:
+    - name: Install Certbot package
+      apt:
+        name: certbot
+        state: present
+      when: ansible_os_family == 'Ubunbtu'  
+
+    - name: Install Certbot package (RHEL/CentOS)
+      yum:
+        name: certbot
+        state: present
+      when: ansible_os_family == 'RedHat'  
+
+    - name: Install Certbot package (Amazon Linux)
+      yum:
+        name: certbot
+        state: present
+      when: ansible_distribution == 'Amazon'  
+      vars:
+        use_backend: yum
+
+
+    - name: Obtain SSL certificates using Certbot
+      shell: "certbot certonly --non-interactive --agree-tos --email danisoseiakoto.20@gmail.com --webroot -w /var/www/html -d yourdomain.com -d www.daniswebsite.danisoseiakoto.net"
+      notify: Reload nginx  # Adjust this based on your web server setup
+
+- name: Configure automatic renewal for SSL certificates
+  hosts: 44.223.1.253
+  become: yes
+  tasks:
+    - name: Create Certbot renewal configuration
+      copy:
+        content: |
+          0 0 * * * /usr/bin/certbot renew --quiet
+        dest: /etc/cron.d/certbot-renewal
+
+# handlers:
+#   - name: Reload nginx
+#     service:
+#       name: nginx
+#       state: reloaded
