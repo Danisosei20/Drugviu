@@ -12,7 +12,8 @@ This Ansible playbook automates the configuration of servers, including installi
 2. **SSH Key Setup**: Make sure you have SSH access to the servers, and your SSH private key is properly configured.
 3. **Run the Playbook**: Execute the playbook using the following command:
 
-Replace `Key.yml` with your inventory file and `playbook.yml` with the name of your playbook file.
+Replace `inventory.ini` with your inventory file and `playbook.yml` with the name of your playbook file.
+Example: ansible-playbook -i inventory.ini Pm2.yml
 
 ## Playbook Structure
 - **Play 1**: Install Python 3 on the remote server.

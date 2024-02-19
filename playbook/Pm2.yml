@@ -1,0 +1,19 @@
+---
+- name: Install PM2
+  hosts: remote_servers
+  become: yes
+  tasks:
+    - name: Install Node.js (if not already installed)
+      package:
+        name: nodejs
+        state: present
+
+    - name: Install npm (if not already installed)
+      package:
+        name: npm
+        state: present
+
+    - name: Install PM2 globally using npm
+      npm:
+        name: pm2
+        global: yes
