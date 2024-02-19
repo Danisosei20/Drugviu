@@ -1,0 +1,8 @@
+certbot_email: "gmail_address"
+certbot_webroot_path: "/var/www/html"
+certbot_domains:
+  - "yourdomain.com"
+  - "www.your_domain.com"
+
+ssh_user: "ubuntu"
+ssh_private_key_file: "/your/private/key_path"
